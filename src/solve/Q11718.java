@@ -1,3 +1,5 @@
+package solve;
+
 import java.util.Scanner;
 
 class Q11718 {
