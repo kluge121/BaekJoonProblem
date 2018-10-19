@@ -1,7 +1,7 @@
 import java.util.*
 import kotlin.collections.ArrayList
 
-object Q4963 {
+object Q4963Kotlin {
 
     val VISIT = 1
     val NONE = 0;
