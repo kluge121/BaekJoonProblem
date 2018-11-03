@@ -17,7 +17,7 @@ public class Q7576 {
     static int[][] visited;
     static int[] xDirection = {0, 1, 0, -1};
     static int[] yDirection = {1, 0, -1, 0};
-    static Queue<Node> queue = new LinkedList<>();
+    static Queue<Node2178> queue = new LinkedList<>();
 
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
@@ -31,7 +31,7 @@ public class Q7576 {
             for (int j = 1; j <= mX; j++) {
                 int tmp = sc.nextInt();
                 adj[j][i] = tmp;
-                if (tmp == GOOD) queue.offer(new Node(j, i));
+                if (tmp == GOOD) queue.offer(new Node2178(j, i));
                 if (tmp == BAD) badCount++;
             }
         }
@@ -49,7 +49,7 @@ public class Q7576 {
 
         //큐 빙빙
         while (queue.size() != 0) {
-            Node thisNode = queue.poll();
+            Node2178 thisNode = queue.poll();
             int x = thisNode.x;
             int y = thisNode.y;
             if (visited[x][y] == VISIT) continue;
@@ -60,7 +60,7 @@ public class Q7576 {
 
                 // 영역을 벗어나지 않으면서, (아직 안익었거나 이미 탐색해서 익었지만 걸리는 날짜가 더 적다면)
                 if (isPossibleMove(cX, cY) && (isMinDay(x, y, cX, cY) || adj[cX][cY] == BAD)) {
-                    queue.offer(new Node(cX, cY));
+                    queue.offer(new Node2178(cX, cY));
                     minMap[cX][cY] = minMap[x][y] + 1;
                     adj[cX][cY] = GOOD;
                 }
@@ -92,11 +92,11 @@ public class Q7576 {
     }
 }
 
-class Node {
+class Node7576 {
     int x;
     int y;
 
-    public Node(int x, int y) {
+    public Node7576(int x, int y) {
         this.x = x;
         this.y = y;
     }
