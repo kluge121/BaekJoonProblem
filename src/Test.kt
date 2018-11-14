@@ -13,5 +13,16 @@ object Test {
             }
             System.out.println()
         }
+
+
+
+
+        val YES = true
+        if(YES or YES) print("지옥")
+        else print("편안")
+        /////////////////////////
+        if(YES) print("지옥")
+        /////////////////////////
+        print("지옥")
     }
 }
