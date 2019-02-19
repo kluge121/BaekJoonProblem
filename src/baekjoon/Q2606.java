@@ -1,50 +1,49 @@
 package baekjoon;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Q2606 {
 
-    static int[] visited;
-    static int[][] adj;
-    static int[] output;
-    static int outCount = 0;
-    static int POSSIBLE = 1;
-    static int computerCount;
-    static int pair;
+    static boolean[][] adj;
+    static boolean[] visit;
+    static int N;
+    static int count = 0;
 
-    public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
-        computerCount = sc.nextInt();
-        pair = sc.nextInt();
-        adj = new int[computerCount + 1][computerCount + 1];
-        visited = new int[computerCount + 1];
-        output = new int[computerCount + 1];
+    public static void main(String args[]) throws IOException {
 
-        for (int i = 0; i < pair; i++) {
-            int tmp1 = sc.nextInt();
-            int tmp2 = sc.nextInt();
-            adj[tmp1][tmp2] = POSSIBLE;
-            adj[tmp2][tmp1] = POSSIBLE;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        int T = Integer.parseInt(br.readLine());
+        adj = new boolean[N + 1][N + 1];
+        visit = new boolean[N + 1];
+        for (int i = 0; i < T; i++) {
+            String[] a = br.readLine().split(" ");
+            int i1 = Integer.parseInt(a[0]);
+            int i2 = Integer.parseInt(a[1]);
+            adj[i1][i2] = true;
+            adj[i2][i1] = true;
         }
-        //1이 포함되는 컴포넌트를 찾는다 - 재귀시작
-        search(1);
+        visit[1] = true;
+        bfs(1);
 
-        for (int i = 2; i <= computerCount; i++) {
-            if (output[i] == POSSIBLE) outCount++;
-        }
-        System.out.print(outCount);
+        System.out.println(count);
+
+
     }
 
-    static void search(int i) {
-        //메모이제이션 체크
-        if (visited[i] == 1) return;
-        visited[i] = 1;
-        for (int j = 1; j <= computerCount; j++) {
-            if (adj[i][j] == POSSIBLE) {
-                output[j] = 1;
-                search(j);
+    static void bfs(int value) {
+        for (int i = 2; i <= N; i++) {
+            if (!visit[i] && adj[value][i]) {
+                count++;
+                visit[i] = true;
+                bfs(i);
             }
         }
+
     }
+
 }
 
