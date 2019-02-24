@@ -3,19 +3,18 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Q1325 {
 
-    static int discover[];
     static boolean visit[];
-    static int count = 1;
-
-    static boolean[][] adj;
-    static int cache[];
+    static ArrayList<Integer>[] adjList;
+    static int save[];
 
     static int N;
     static int M;
-    static int max = 0;
+
 
     public static void main(String[] args) throws IOException {
 
@@ -24,57 +23,55 @@ public class Q1325 {
         String[] a = br.readLine().split(" ");
         N = Integer.parseInt(a[0]);
         M = Integer.parseInt(a[1]);
+        adjList = (ArrayList<Integer>[]) new ArrayList[N + 1];
 
-        discover = new int[N + 1];
-        visit = new boolean[N + 1];
 
-        adj = new boolean[N + 1][N + 1];
-        for (int i = 0; i < M; i++) {
+        for (int i = 1; i <= M; i++) {
             String[] b = br.readLine().split(" ");
             int n1 = Integer.parseInt(b[0]);
             int n2 = Integer.parseInt(b[1]);
-            adj[n2][n1] = true;
+
+            if (adjList[n1] == null) {
+                adjList[n1] = new ArrayList<>();
+            }
+            adjList[n1].add(n2);
+
+
         }
-//        cache = new int[N + 1];
-//        visit = new boolean[N + 1];
-//
-//        for (int i = 1; i <= N; i++) {
-//            dfs(i);
-//            max = Math.max(cache[i], max);
-//        }
-//        for (int i = 1; i <= N; i++) {
-//            if (max == cache[i])
-//                System.out.print(i + " ");
-//        }
-
-    }
-
-    static int dfs(int index) {
-        if (visit[index]) return cache[index];
-
+        save = new int[N + 1];
         for (int i = 1; i <= N; i++) {
-            if (adj[index][i]) {
-                cache[index] += 1;
-                cache[index] += dfs(i);
-            }
+            visit = new boolean[N + 1];
+            dfs(i);
         }
-        visit[index] = true;
-        return cache[index];
-    }
 
-
-    static void findSpanningTree(int x) {
-
-        discover[x] = count++;
-        for (int i = 1 ; i <=N; i++){
-            if(!visit[i] && adj[x][i] ){
-                findSpanningTree(i);
-            }
+        int max = 0;
+        for (int i = 1; i < save.length; i++) {
+            max = Math.max(max, save[i]);
 
         }
 
+        for (int i = 1; i < save.length; i++) {
+            if (max == save[i])
+                System.out.print(i + " ");
+        }
+    }
+
+    static void dfs(int index) {
+        visit[index]= true;
+        if (adjList[index] != null) {
+            for (int i : adjList[index]) {
+                if (!visit[i]) {
+                    visit[i] = true;
+                    save[i]++;
+                    dfs(i);
+                }
+            }
+
+
+        }
 
     }
+
 
 }
 
