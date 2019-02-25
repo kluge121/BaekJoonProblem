@@ -3,7 +3,7 @@ package baekjoon;
 
 import java.util.Scanner;
 
-public class Q1107_bruteforce {
+public class Q1107 {
     static boolean[] unables = new boolean[11];
 
     public static void main(String[] args) {

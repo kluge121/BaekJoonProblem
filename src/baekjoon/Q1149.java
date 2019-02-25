@@ -1,62 +1,67 @@
 package baekjoon;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Q1149 {
-    static int[][] cost; // 각 집의 페인팅 비용
-    static int[][] cache; // 메모이제이션
-    static int houseCount; // 집의 개수
-    final static int RED = 1;
-    final static int GREEN = 2;
-    final static int BLUE = 3;
 
-    public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
-        houseCount = sc.nextInt();
-        cost = new int[houseCount][4];
-        cache = new int[houseCount][4];
-        // 굳이 컬러 배열공간을 4로 둔 것은 1,2,3에 컬러를 할당하고
-        // 초기화 값 0을 활용한다.. 였는데 지금 생각해보니 불필요한 것..
+    static int[] red;
+    static int[] green;
+    static int[] blue;
+    static int[][] cache;
+    static int N;
 
-        for (int i = 0; i < houseCount; i++) {
-            cost[i][RED] = sc.nextInt();
-            cost[i][GREEN] = sc.nextInt();
-            cost[i][BLUE] = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        cache = new int[N][4];
+        red = new int[N];
+        green = new int[N];
+        blue = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            String[] a = br.readLine().split(" ");
+            red[i] = Integer.parseInt(a[0]);
+            green[i] = Integer.parseInt(a[1]);
+            blue[i] = Integer.parseInt(a[2]);
         }
-        //문제에서 주어진 입력 모두 받음
-        //첫 번째 집을 무슨색으로 칠할 것인가 -> 빨초파 각각 시작
-        int redStart = search(0, RED);
-        int greenStart = search(0, GREEN);
-        int blueStart = search(0, BLUE);
-        System.out.print(Math.min(redStart, Math.min(greenStart, blueStart)));
+        int redStart = search(0, 1);
+        int greenStart = search(0, 2);
+        int blueStart = search(0, 3);
+
+
+        System.out.println(Math.min(redStart, Math.min(greenStart, blueStart)));
+
     }
 
-    //재귀 탐색을 위한 부분
-    //리턴 값을 n번째까지 최소 비용
-    public static int search(int n, int preColor) {
-        //재귀의 첫 시작은 역시 종료 조건, n은 0부터 시작하지만 n==housecount를 해야
-        //마지막 집까지 확인하고 그 다음 재귀 호출시 여기서 재귀가 끝난것을 확인 0을 리턴
-        if (n == houseCount) return 0;
-        //DP문제니 당연히 메모이제이션 체크, 중복계산을 방지하기 위함
-        if (cache[n][preColor] != 0) {
-            return cache[n][preColor];
+    static int search(int depth, int prev) {
+        if (depth == N) {
+            return 0;
         }
-        int value1;
-        int value2;
-        // 이웃한 색이 같을 수는 없기 때문에 이전 색을 확인한 후 제외한 재귀 호출
-        //(이번 집의 비용 + 그 뒤의 집의 최소비용을 구하는 재귀함수)
-        if (preColor == RED) {
-            value1 = cost[n][RED] + search(n + 1, GREEN);
-            value2 = cost[n][RED] + search(n + 1, BLUE);
-        } else if (preColor == GREEN) {
-            value1 = cost[n][GREEN] + search(n + 1, RED);
-            value2 = cost[n][GREEN] + search(n + 1, BLUE);
+        if (cache[depth][prev] != 0) {
+            return cache[depth][prev];
+        }
+        int currentValue = 0;
+        int min = 0;
+        int value1, value2;
+        if (prev == 1) {
+            currentValue = red[depth];
+            value1 = search(depth + 1, 2) + currentValue;
+            value2 = search(depth + 1, 3) + currentValue;
+        } else if (prev == 2) {
+            currentValue = green[depth];
+            value1 = search(depth + 1, 1) + currentValue;
+            value2 = search(depth + 1, 3) + currentValue;
         } else {
-            value1 = cost[n][BLUE] + search(n + 1, RED);
-            value2 = cost[n][BLUE] + search(n + 1, GREEN);
+            currentValue = blue[depth];
+            value1 = search(depth + 1, 1) + currentValue;
+            value2 = search(depth + 1, 2) + currentValue;
+
         }
-        // 해당 재귀시점에서 최소값을 찾아 메모이제이션하고 리턴
-        cache[n][preColor] = Math.min(value1, value2);
-        return cache[n][preColor];
+        min = Math.min(value1, value2);
+        return cache[depth][prev] = min;
+
     }
 }

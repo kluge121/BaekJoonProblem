@@ -1,58 +1,44 @@
 package baekjoon;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Q1003 {
 
-    static int cache[];
-    static int one_cache[];
-    static int zero_cache[];
-    static String[] arr;
+    static int[] zcount;
+    static int[] ocount;
+    static int[] pibo;
 
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-        arr = new String[T];
-        for (int t = 1; t <= T; t++) {
-            int N = sc.nextInt();
+    public static void main(String[] args) throws IOException {
 
-            cache = new int[N + 1];
-            one_cache = new int[N + 1];
-            zero_cache = new int[N + 1];
-            if (N == 1) {
-                arr[t - 1] = "0 1";
-                continue;
-            } else if (N == 0) {
-                arr[t - 1] = "1 0";
-                continue;
-            }
-            fibonacci(N);
-            arr[t - 1] = zero_cache[N] + " " + one_cache[N];
-        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        for (String a : arr) {
-            System.out.println(a);
+
+        int T = Integer.parseInt(br.readLine());
+        zcount = new int[41];
+        ocount = new int[41];
+        zcount[1] = 0;
+        ocount[1] = 1;
+
+        ocount[0] = 0;
+        zcount[0] = 1;
+
+        for (int t = 0; t < T; t++) {
+            int n = Integer.parseInt(br.readLine());
+            fibo(n);
+            System.out.println(zcount[n]+" "+ocount[n]);
         }
     }
 
-    static int fibonacci(int n) {
-        if (n > 1 && cache[n] != 0) {
-            return cache[n];
+    static void fibo(int n) {
+        if (ocount[n] != 0) return;
+        for (int i = 2; i <= n; i++) {
+            if (ocount[i] != 0) continue;
+            ocount[i] = ocount[i - 1] + ocount[i - 2];
+            zcount[i] = zcount[i - 1] + zcount[i - 2];
         }
-        if (n == 0) {
-            zero_cache[0] = 1;
-            return 0;
-        } else if (n == 1) {
-            one_cache[1] = 1;
-            return 1;
-        } else {
-            cache[n] = fibonacci(n - 1) + fibonacci(n - 2);
-            zero_cache[n] = zero_cache[n - 1] + zero_cache[n - 2];
-            one_cache[n] = one_cache[n - 1] + one_cache[n - 2];
-            return cache[n];
-        }
-
-
     }
 }
+
