@@ -1,14 +1,11 @@
 package expert;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class Q5215 {
-
 
     static int[] cal;
     static int[] point;
@@ -19,7 +16,6 @@ public class Q5215 {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         int T = Integer.parseInt(br.readLine());
         String[] out = new String[T];
 
