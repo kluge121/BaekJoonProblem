@@ -1,42 +1,43 @@
 package baekjoon;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Q1463 {
+    static int n;
+    static int cache[];
+    static boolean visit[];
 
-    final static int NONE = -1;
-    static int[] cache;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        cache = new int[n + 1];
+        visit = new boolean[n + 1];
 
-    public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        cache = new int[N + 1];
-        Arrays.fill(cache, -1);
-        System.out.print(search(N));
+        search(n, 0);
+        System.out.println(cache[n]);
     }
 
-    static int search(int n) {
-        // 1이 됐을 경우 조건
-        if (n == 1)
-            return 0;
+    static int search(int n, int count) {
+        if (n == 1) return count;
+        if (visit[n]) return cache[n];
+        visit[n] = true;
+        int min = Integer.MAX_VALUE;
+        if (n % 3 == 0) {
+            min = Math.min(search(n / 3, count) + 1, min);
+        }
+        if (n % 2 == 0) {
+            min = Math.min(search(n / 2, count) + 1, min);
 
-        // 메모이제이션 체크
-        if (cache[n] != NONE)
-            return cache[n];
+        }
+        min = Math.min(search(n - 1, count) + 1, min);
 
-        // 최소값을 구하는 비교를 위해 충분히 큰 값으로 초기화
-        int value1 = 10000000;
-        int value2 = 10000000;
-        int value3;
+        return cache[n] = min;
 
-        if (n % 3 == 0)
-            value1 = search(n / 3) + 1;
-        if (n % 2 == 0)
-            value2 = search(n / 2) + 1;
-        value3 = search(n - 1) + 1;
-
-        return cache[n] = Math.min(value1, Math.min(value2, value3));
     }
+
 
 }
+
+
