@@ -16,6 +16,7 @@ public class Q5986 {
         lastPrime = 2;
         int T = sc.nextInt();
         out = new String[T];
+
         for (int t = 1; t <= T; t++) {
             int count = 0;
             int n = sc.nextInt();
