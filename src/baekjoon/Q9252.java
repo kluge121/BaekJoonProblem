@@ -1,73 +1,90 @@
 package baekjoon;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Q9252 {
 
-    static char[] s1, s2;
     static int[][] cache;
-    static char[] resultStr;
+    static boolean[][] visit;
+    static Point[][] backtracking;
+
+    static String a;
+    static String b;
+    static Point startPoint = null;
+
+    static int max = 0;
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        a = br.readLine();
+        b = br.readLine();
+        cache = new int[a.length()][b.length()];
+        visit = new boolean[a.length()][b.length()];
+        backtracking = new Point[a.length()][b.length()];
+        search(0, 0);
+        System.out.println(max);
 
 
-    public static void main(String args[]) {
-
-        //알파벳 대문자로만 이루어짐.
-        //문자는 최대 1000자
-        Scanner sc = new Scanner(System.in);
-        s1 = sc.next().toCharArray();
-        s2 = sc.next().toCharArray();
-        cache = new int[s1.length][s2.length];
-        resultStr = new char[1001];
-        for (int i = 0; i < s1.length; i++) {
-            Arrays.fill(cache[i], -1);
+        for (int i = 0; i < max; i++) {
+            if (startPoint.check) {
+                System.out.print(a.charAt(startPoint.a));
+            }
+            startPoint = backtracking[startPoint.a][startPoint.b];
         }
+    }
 
-        //재귀 첫 호출
-        int result = search(0, 0);
-        System.out.println(result);
+    static int search(int aa, int bb) {
+        if (aa > a.length() - 1 || bb > b.length() - 1) return 0;
+        if (visit[aa][bb]) return cache[aa][bb];
+        visit[aa][bb] = true;
+        int count = 0;
 
-        for (char a : resultStr) {
-            if (a != '\u0000') {
-                System.out.print(a);
+
+        if (a.charAt(aa) == b.charAt(bb)) {
+            int tmp = search(aa + 1, bb + 1);
+            if (count < tmp) {
+                backtracking[aa][bb] = new Point(aa + 1, bb + 1, true);
+                count = tmp;
+            }
+            count++;
+        } else {
+            int tmp1 = search(aa, bb + 1);
+            int tmp2 = search(aa + 1, bb);
+            if (tmp1 > tmp2) {
+                if (count < tmp1) {
+                    backtracking[aa][bb] = new Point(aa, bb + 1, false);
+                    count = tmp1;
+                }
+            } else {
+                if (count < tmp2) {
+                    backtracking[aa][bb] = new Point(aa + 1, bb, false);
+                    count = tmp2;
+                }
             }
         }
+        if (count >= max) {
+            max = count;
+            startPoint = new Point(aa, bb, true);
+        }
+        return cache[aa][bb] = count;
     }
 
-    static int search(int sp1, int sp2) {
 
-        // 재귀의 종료조건을 맨 처음 기술
-        // 각 문자열의 끝인지 확인
-        if (sp1 == s1.length) return 0;
-        if (sp2 == s2.length) return 0;
+    static class Point {
+        int a;
+        int b;
+        boolean check;
 
-        //메모이제이션 체크
-        if (cache[sp1][sp2] != -1) {
-            //System.out.println("caching hit");
-            return cache[sp1][sp2];
+        public Point(int a, int b, boolean check) {
+            this.a = a;
+            this.b = b;
+            this.check = check;
         }
-
-        int value1;
-        int value2;
-        int value3;
-
-        //문자열이 같을 때
-        if (s1[sp1] == s2[sp2]) {
-            value1 = 1 + search(sp1 + 1, sp2 + 1);
-
-        } else
-            value1 = -1;
-        //그 외의 경우
-        value2 = search(sp1, sp2 + 1);
-        value3 = search(sp1 + 1, sp2);
-
-
-        cache[sp1][sp2] = Math.max(value1, Math.max(value2, value3));
-
-
-        // 최대 값을 리턴
-        return cache[sp1][sp2] = Math.max(value1, Math.max(value2, value3));
-
-
     }
 }
+
+
