@@ -3,13 +3,14 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Q11066 {
     static int N;
     static int map[];
     static boolean visit[];
-    static int cache[];
-
+    static int cache[][];
+    static int[] sum;
 
     public static void main(String[] args) throws IOException {
 
@@ -19,43 +20,35 @@ public class Q11066 {
 
         for (int t = 0; t < T; t++) {
             N = Integer.parseInt(br.readLine());
-            map = new int[N];
-            visit = new boolean[N];
-            cache = new int[N];
+            map = new int[N + 1];
+            visit = new boolean[N + 1];
+            cache = new int[N + 1][N + 1];
+            sum = new int[N + 1];
 
             String[] a = br.readLine().split(" ");
-            for (int i = 0; i < a.length; i++) {
-                map[i] = Integer.parseInt(a[i]);
+
+            for (int i = 1; i <= a.length; i++) {
+                int value = Integer.parseInt(a[i-1]);
+                sum[i] = value + sum[i - 1] + map[i];
+                map[i] = value;
             }
 
-
+            for (int i = 1; i < N; i++) {
+                for (int j = 1; i + j <= N; j++) {
+                    int k = i + j;
+                    cache[j][k] = Integer.MAX_VALUE;
+                    for (int z = j; z < k; z++) {
+                        cache[j][k] = Math.min(cache[j][k], cache[j][z] + cache[z + 1][k] + sum[k] - sum[j - 1]);
+                    }
+                }
+            }
+            out[t] = cache[1][N] + "";
+        }
+        for (String a : out) {
+            System.out.println(a);
         }
 
     }
 
-    static int search(int index, int d) {
 
-        visit[index] = true;
-        for (int i = 0; i < N; i++) {
-
-            visit[i] = true;
-
-            if(index - 1 >= 0){
-
-            }
-
-
-            visit[i] = false;
-
-            //경우의 수
-            //1. 바로 인접한 애랑 더한다.
-            //2. 임시파일이랑 더한다.
-
-
-
-        }
-
-        visit[index] = false;
-        return 1;
-    }
 }
