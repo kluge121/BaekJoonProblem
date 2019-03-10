@@ -8,7 +8,6 @@ public class Q2749 {
 
 
     static long[][] unit = {{1, 1}, {1, 0}};
-    static int[] cache;
 
     public static void main(String[] args) throws IOException {
 

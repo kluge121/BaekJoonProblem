@@ -9,7 +9,6 @@ import java.util.HashSet;
 
 public class Q1459 {
 
-    static int[] discover;
     static int[] map;
     static boolean visit[];
     static boolean check[];
@@ -21,7 +20,6 @@ public class Q1459 {
         map = new int[N + 1];
         visit = new boolean[N + 1];
         check = new boolean[N + 1];
-        discover = new int[N + 1];
         hashSet = new HashSet<>();
 
         for (int i = 1; i <= N; i++) {
