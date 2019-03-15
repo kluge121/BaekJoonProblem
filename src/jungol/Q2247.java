@@ -3,77 +3,83 @@ package jungol;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Q2247 {
 
 
     public static void main(String[] args) throws IOException {
 
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int[] times = new int[24];
         int N = Integer.parseInt(br.readLine());
 
+        int maxTime = 0;
+        int notTime = 0;
 
+        ArrayList<Point> list = new ArrayList<>();
+        ArrayList<Point> resultList = new ArrayList<>();
         for (int i = 0; i < N; i++) {
+
             String[] a = br.readLine().split(" ");
-            int tmp1 = Integer.parseInt(a[0]);
-            int tmp2 = Integer.parseInt(a[1]);
+            int start = Integer.parseInt(a[0]);
+            int end = Integer.parseInt(a[1]);
+            if (start != end)
+                list.add(new Point(start, end));
+        }
+        Collections.sort(list);
+        Point main = list.get(0);
+        if (main.start != 1) {
+            notTime = main.start - 1;
+        }
 
+        for (int i = 1; i < list.size(); i++) {
+            Point tmp1 = list.get(i);
 
-            if (tmp1 != tmp2) {
-                for (int j = tmp1; j < tmp2; j++) {
-                    times[j]++;
+            if (tmp1.start <= main.end && main.end < tmp1.end) {
+                main.end = tmp1.end;
+            } else if(tmp1.start > main.end) {
+                resultList.add(main);
+                maxTime = Math.max(maxTime, main.end - main.start);
+                main = new Point(tmp1.start, tmp1.end);
+
+                if(resultList.size()>1){
+                    Point p1 = resultList.get(resultList.size()-1);
+                    Point p2 = resultList.get(resultList.size()-2);
+                    notTime = Math.max(notTime, p1.start - p2.end);
                 }
             }
-
-
         }
-
-        int lastIndex = 0;
-
-        for (int i = times.length - 1; i >= 0; i--) {
-
-            if (times[i] != 0) {
-                lastIndex = i;
-                break;
-            }
+        resultList.add(main);
+        maxTime = Math.max(maxTime, main.end - main.start);
+        if(resultList.size()>1){
+            Point p1 = resultList.get(resultList.size()-1);
+            Point p2 = resultList.get(resultList.size()-2);
+            notTime = Math.max(notTime, p1.start - p2.end);
         }
+        System.out.println(maxTime + " " + notTime);
 
-
-        int count1Max = 0;
-        int count0Max = 0;
-
-        int count1 = 0;
-        int count0 = 0;
-
-        int prev = -1;
-
-        for (int j = 1; j <= lastIndex; j++) {
-
-
-            if ((times[j] == 0 && (prev == 0 || prev == -1)) || (times[j] == 0 && prev == 1)) {
-                count0++;
-                count1 = 0;
-                prev = 0;
-
-
-            } else if ((times[j] >= 1 && (prev == 1 || prev == -1)) || (times[j] >= 1 && prev == 0)) {
-                count1++;
-                count0 = 0;
-                prev = 1;
-
-            }
-            count0Max = Math.max(count0Max, count0);
-            count1Max = Math.max(count1Max, count1);
-
-
-
-        }
-        System.out.println(count1Max + " " + count0Max);
     }
+    static class Point implements Comparable<Point> {
+        int start;
+        int end;
 
+        public Point(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
 
+        @Override
+        public int compareTo(Point o) {
+            if (start > o.start)
+                return 1;
+            else if (start < o.start)
+                return -1;
+            else {
+                if (end < o.end)
+                    return -1;
+                else return 1;
+            }
+        }
+    }
 }
