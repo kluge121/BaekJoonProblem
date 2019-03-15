@@ -28,6 +28,8 @@ public class Q16947 {
         out = new int[N + 1];
         candidate = new ArrayList<>();
         seq = 1;
+
+        //문제 정보 입력
         for (int i = 0; i < N; i++) {
             String[] a = br.readLine().split(" ");
             int s = Integer.parseInt(a[0]);
@@ -41,10 +43,13 @@ public class Q16947 {
         }
         discover = new int[N + 1];
         seq = 1;
+
+
         for (int i = 1; i <= N; i++) {
             if (discover[i] == 0)
                 makeSpanningTree(i);
         }
+
 
         for (int i : candidate) {
             for (int j : adj[i]) {
@@ -71,7 +76,6 @@ public class Q16947 {
                 }
             }
         }
-
     }
 
     static void makeSpanningTree(int index) {
