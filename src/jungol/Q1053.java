@@ -24,8 +24,6 @@ public class Q1053 {
             }
 
         }
-
-
     }
 
     static long[][] matrixTime(long[][] a, long[][] b) {
