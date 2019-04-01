@@ -26,8 +26,8 @@ public class Q16000 {
     static boolean[] isCycle;
     static boolean[] isFinish;
 
-    static int[] rowD = {-1, 0, 1, 0};
-    static int[] colD = {0, 1, 0, -1};
+    static int[] rowD = {-1, 0, 1, 0, -1, -1, 1, 1};
+    static int[] colD = {0, 1, 0, -1, -1, 1, 1, -1};
 
     static int start;
     static int end;
@@ -86,20 +86,26 @@ public class Q16000 {
             sb.append("\n");
         }
         System.out.println(sb.toString());
-//
 //        System.out.println("사이클 " + cycleList.size() + "개");
 //        System.out.println("논사이클 " + nonCycleList.size() + "개");
-//
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < column; j++) {
-//                if (isCycle[i * column + j]) {
-//                    System.out.print("# ");
-//                } else {
-//                    System.out.print("- ");
-//                }
-//            }
-//            System.out.println();
-//        }
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                if (isCycle[i * column + j]) {
+                    System.out.print("# ");
+                } else {
+                    System.out.print("- ");
+                }
+            }
+            System.out.println();
+        }
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                System.out.print(imap[i][j]);
+            }
+            System.out.println();
+        }
     }
 
     static boolean makeSpanningTree(int r, int c, int prev) {
@@ -110,7 +116,7 @@ public class Q16000 {
             visit[r][c] = true;
         }
         boolean flag = false;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
 
             int cr = r + rowD[i];
             int cc = c + colD[i];
