@@ -86,20 +86,29 @@ public class Q16000 {
             sb.append("\n");
         }
         System.out.println(sb.toString());
-//
-//        System.out.println("사이클 " + cycleList.size() + "개");
-//        System.out.println("논사이클 " + nonCycleList.size() + "개");
-//
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < column; j++) {
-//                if (isCycle[i * column + j]) {
-//                    System.out.print("# ");
-//                } else {
-//                    System.out.print("- ");
-//                }
-//            }
-//            System.out.println();
-//        }
+
+        System.out.println("사이클 " + cycleList.size() + "개");
+        System.out.println("논사이클 " + nonCycleList.size() + "개");
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                if (isCycle[i * column + j]) {
+                    System.out.print("# ");
+                } else {
+                    System.out.print("- ");
+                }
+            }
+            System.out.println();
+        }
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                System.out.print(imap[i][j]+" ");
+            }
+            System.out.println();
+        }
+
+
     }
 
     static boolean makeSpanningTree(int r, int c, int prev) {

@@ -1,9 +1,11 @@
+package expert;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-public class HW0325 {
+public class Q1952 {
     static int[] cost;
     static int[] month = {0, 1, 3, 12};
     static int[] days;
