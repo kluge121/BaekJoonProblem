@@ -28,12 +28,13 @@ public class Q1077 {
             int v = Integer.parseInt(b[1]);
             array[i] = new Jewel(v, w);
         }
+
         int count = 1;
         for (int i = 0; i < N; i++) {
             Jewel tmp = array[i];
             for (int j = 1; j <= W; j++) {
                 if (j - tmp.weight >= 0) {
-                    cache[count][j] = Math.max(Math.max(cache[count - 1][j - tmp.weight] + tmp.value, cache[count][j - tmp.weight] + tmp.value), cache[count][j]);
+                    cache[count][j] = Math.max(cache[count - 1][j - tmp.weight] + tmp.value, cache[count][j - tmp.weight] + tmp.value);
                     max = Math.max(cache[count][j], max);
                 } else {
                     cache[count][j] = cache[count - 1][j];
@@ -43,6 +44,7 @@ public class Q1077 {
         }
         System.out.println(max);
     }
+
     static class Jewel {
         int value, weight;
 

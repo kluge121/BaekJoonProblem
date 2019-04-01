@@ -50,6 +50,7 @@ public class Q2247 {
                 }
             }
         }
+
         resultList.add(main);
         maxTime = Math.max(maxTime, main.end - main.start);
         if(resultList.size()>1){
