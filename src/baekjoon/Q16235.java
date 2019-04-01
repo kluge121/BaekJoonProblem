@@ -3,6 +3,8 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Q16235 {
@@ -22,13 +24,13 @@ public class Q16235 {
         N = Integer.parseInt(a[0]);
         M = Integer.parseInt(a[1]);
         K = Integer.parseInt(a[2]);
-        yang = new int[N+1][N+1];
-        map = new Point[N+1][N+1];
+        yang = new int[N + 1][N + 1];
+        map = new Point[N + 1][N + 1];
 
         for (int i = 1; i <= N; i++) {
             String[] b = br.readLine().split(" ");
             for (int j = 1; j <= N; j++) {
-                yang[i][j] = Integer.parseInt(b[j]);
+                yang[i][j] = Integer.parseInt(b[j - 1]);
                 map[i][j] = new Point(5, new PriorityQueue<>());
             }
         }
@@ -41,22 +43,29 @@ public class Q16235 {
         }
 
         int count = 0;
+
         for (int i = 0; i < K; i++) {
             map = gogoYear();
+
+
         }
+
 
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
                 count += map[i][j].trees.size();
             }
         }
+
+
         System.out.println(count);
     }
 
+
     static Point[][] gogoYear() {
 
-        Point[][] tmpMap = new Point[N+1][N+1];
-        int[][] deadY = new int[N+1][N+1];
+        Point[][] tmpMap = new Point[N + 1][N + 1];
+        int[][] deadY = new int[N + 1][N + 1];
 
 
         //봄 - 양분 냠냠냠
@@ -64,10 +73,11 @@ public class Q16235 {
             for (int j = 1; j <= N; j++) {
                 int tmpY = 0;
                 PriorityQueue<Integer> q = map[i][j].trees;
-                PriorityQueue<Integer> nq = map[i][j].trees;
-                for (int k = 0; k < q.size(); k++) {
+                PriorityQueue<Integer> nq = new PriorityQueue<>();
+                while (!q.isEmpty()) {
+
                     int a = q.poll();
-                    if (map[i][j].y > a) {
+                    if (map[i][j].y >= a) {
                         map[i][j].y -= a;
                         nq.add(a + 1);
                     } else {
@@ -75,10 +85,11 @@ public class Q16235 {
                     }
                 }
                 deadY[i][j] = tmpY;
+
                 map[i][j].trees = nq;
+
             }
         }
-
         //여름 - 죽은 양분 추가
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
@@ -87,34 +98,37 @@ public class Q16235 {
         }
 
 
-        //가을 - 세팅 번식을 위한 임시 맵
+        //가을(1) - 세팅 번식을 위한 임시 맵
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
                 tmpMap[i][j] = new Point(0, new PriorityQueue<>());
             }
         }
 
-
+        //가을(2) - 번식
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
                 PriorityQueue<Integer> q = map[i][j].trees;
                 int a = 0;
-                for (int k = 0; k < q.size(); k++) {
+
+                while (!q.isEmpty()) {
                     a = q.poll();
                     if (a % 5 == 0) {
                         for (int z = 0; z < 8; z++) {
                             int cr = i + rowD[z];
                             int cc = j + colD[z];
                             if (isRange(cr, cc)) {
-                                tmpMap[i][j].trees.add(1);
+                                tmpMap[cr][cc].trees.add(1);
                             }
                         }
                     }
+                    tmpMap[i][j].trees.add(a);
                 }
-                tmpMap[i][j].trees.add(a);
+
                 tmpMap[i][j].y = map[i][j].y;
             }
         }
+
 
 
         //겨울 - 양분 추가
@@ -126,7 +140,6 @@ public class Q16235 {
 
         return tmpMap;
     }
-
 
     static boolean isRange(int r, int c) {
         return r > 0 && c > 0 && r <= N && c <= N;
