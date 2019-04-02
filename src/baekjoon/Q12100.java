@@ -13,7 +13,7 @@ public class Q12100 {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        map = new int[][]
+        map = new int[N][N];
 
 
     }
