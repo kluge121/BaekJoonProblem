@@ -5,16 +5,13 @@ public class Test {
     public static void main(String[] args) {
 
 
-        Deque<Integer> q = new LinkedList<>();
+        for(int i = 0 ; i <10; i++){
 
-        q.add(1);
-        q.add(2);
-        q.add(3);
-        q.add(4);
-        q.add(5);
-        q.addFirst(q.pollLast());
-        System.out.println(Arrays.toString(q.toArray()));
+            for (int j = 1 ; j <=3000 ; j++) {
+                System.out.println(j);
+            }
 
+        }
 
 
     }
