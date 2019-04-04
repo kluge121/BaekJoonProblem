@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Q12100 {
+public class Q12100_solving_2048_easy {
 
     static int N;
     static int[][] map;

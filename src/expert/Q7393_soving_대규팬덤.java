@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-public class Q7393 {
+public class Q7393_soving_대규팬덤 {
 
     static int cache[][];
     static int N;

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Q2577 {
+public class Q2577_Solving_회전초밥 {
     static int n;
     static int d;
     static int k;
