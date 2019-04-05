@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class Q4013 {
+public class Q4013_solve_top {
     static Deque<Integer> t1;
     static Deque<Integer> t2;
     static Deque<Integer> t3;
