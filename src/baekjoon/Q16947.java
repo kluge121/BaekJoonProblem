@@ -68,6 +68,10 @@ public class Q16947 {
         //스패닝트리 생성 -> 순환선을 찾아서 isCycle에 순환선에 포함되는 정점 표시
         makeSpanningTree(1, -1);
 
+
+
+
+
         //순환선을 다 찾은 뒤 지선을 거리 계산
         while (!candidate.isEmpty()) {
             int n = candidate.poll();

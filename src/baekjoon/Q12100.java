@@ -106,6 +106,7 @@ public class Q12100 {
 
     }
 
+
     static void mapToList(int[][] tMap, int d) {
         if (d == UP || d == LEFT) {
             for (int i = 0; i < N; i++) {
